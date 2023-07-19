@@ -1,0 +1,60 @@
+algoritmo "Projeto final - Gerenciamento de Estoque de Produto"
+   // Universidade Federal do Maranhão - BICT
+   // São Luís, 16 de junho de 2023
+   // Grupo: Beatriz Pinheiro; João Pedro Silva
+   // Avaliação de Fundamentos de Computação - Projeto
+
+procedimento menu
+
+fimprocedimento
+
+tipo
+   livraria = registro
+      codigo: caractere
+      nome  : caractere
+      preco : real
+      qtd   : inteiro
+   fimregistro
+
+var
+   produtos                            : vetor[1..100] de livraria
+   i, tamEs, esCrit                    : inteiro
+   mediaPreco, somaPre, maisCaro, id   : real
+
+inicio
+   escreva("Tamanho do estoque: ")
+   leia(tamEs)
+
+   limpatela
+   somaPre  <- 0
+   maisCaro <- 0
+
+   // Cadastro de produto
+   para i de 1 ate tamEs faca
+      escreva("Código do produto: ")
+      leia(produtos[i].codigo)
+
+      escreva("Nome do produto: ")
+      leia(produtos[i].nome)
+
+      escreva("Preço do produto: ")
+      leia(produtos[i].preco)
+      somaPre <- somaPre + produtos[i].preco
+
+      escreva("Estoque: ")
+      leia(produtos[i].qtd)
+
+      se (produtos[i].preco > maisCaro) entao
+         maisCaro <- produtos[i].preco
+         id <- i
+      fimse
+
+      escreval
+   fimpara
+
+   // Média dos preços
+   mediaPre <- somaPre/tamEs
+
+   // Relatórios
+   escreva("A média de preços entre os produtos em estoque é: ", mediaPre:1:2)
+fimalgoritmo
