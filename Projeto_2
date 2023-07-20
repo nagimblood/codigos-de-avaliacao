@@ -1,0 +1,96 @@
+algoritmo "Algoritmo do projeto final 2"
+
+tipo
+   livraria = registro
+      nom      : caractere
+      codIsb   : caractere
+      qtdEmEst : inteiro
+      prec     : real
+   fimregistro
+
+var
+   produtos : vetor[1..1] de livraria
+   i, tam   : inteiro
+   mediaPre : real
+   somaPre  : real
+   maisCaro : real
+
+procedimento cadastro_item()
+var i, index, saida: inteiro
+inicio
+   index <- 0
+   para i de 1 ate 1 faca
+      index <- index + 1
+      escreval("----------------------------")
+      escreval("----- Cadastro de Item -----")
+      escreval("----------------------------")
+      escreval
+
+      escreva ("Nome do livro: ")
+      leia(produtos[index].nom)
+      escreva ("código de registro ISBM: ")
+      leia(produtos[index].codIsb)
+      escreva ("Quantidade em estoque: ")
+      leia(produtos[index].qtdEmEst)
+      escreva ("Preço indexado: ")
+      leia(produtos[index].prec)
+   fimpara
+
+fimprocedimento
+
+procedimento imprimir_produtos()
+var j: inteiro
+inicio
+   escreval("Status do estoque: ")
+   para j de 1 ate 1 faca
+      escreval("Produto    : ", produtos[index].nom)
+      escreval("Quantidade : ", produtos[index].qtdEmEst)
+      escreval("Preço (R$) : ", produtos[index].prec)
+   fimpara
+fimprocedimento
+
+procedimento menu()
+var sel  : inteiro
+    cont : caractere
+inicio
+   limpatela
+   escreval("----------------------------")
+   escreval("----------- MENU -----------")
+   escreval("----------------------------")
+   escreval
+   escreval("    1. Cadastro de item     ")
+   escreval("    2. Lista de itens       ")
+   escreval("    3. Procurar item        ")
+   escreval("    4. Alterar item         ")
+   escreval("    5. Remover item         ")
+   escreval("    6. SAIR                 ")
+   escreva ("Escolha: ")
+   leia(sel)
+
+   escolha (sel)
+   caso 1
+      limpatela
+      cadastro_item()
+      
+      escreva("Deseja cotinuar? s/n")
+      leia(cont)
+      se (cont = "s") entao
+         menu()
+      senao
+         escreva("Produtos cadastrados com sucesso!")
+      fimse
+   caso 2
+      imprimir_produtos()
+   caso 3
+      escreval
+   caso 4
+      escreval
+   caso 6
+      limpatela
+   fimescolha
+
+fimprocedimento
+
+inicio
+   menu()
+fimalgoritmo
