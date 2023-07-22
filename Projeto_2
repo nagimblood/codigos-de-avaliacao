@@ -1,4 +1,7 @@
 algoritmo "Algoritmo do projeto final 2"
+// Universidade Federal do Maranhão
+// Grupo: Beatriz Pinheiro, João Pedro Silva
+// Projeto de Desenvolvimento - Gerenciamento de Estoque
 
 tipo
    livraria = registro
@@ -9,18 +12,67 @@ tipo
    fimregistro
 
 var
-   produtos : vetor[1..1] de livraria
+   produtos : vetor[1..100] de livraria
    i, tam   : inteiro
    mediaPre : real
    somaPre  : real
    maisCaro : real
+   index    : inteiro
+   ret      : caractere
 
-procedimento cadastro_item()
-var i, index, saida: inteiro
+   // Menu de exibição
+procedimento menu()
+var sel     : inteiro
 inicio
-   index <- 0
+   limpatela
+   escreval("----------------------------")
+   escreval("----------- MENU -----------")
+   escreval("----------------------------")
+   escreval
+   escreval("    1. Cadastro de item     ")
+   escreval("    2. Lista de itens       ")
+   escreval("    3. Procurar item        ")
+   escreval("    4. Alterar item         ")
+   escreval("    5. Remover item         ")
+   escreval("    6. SAIR                 ")
+   escreval
+   escreva ("Escolha: ")
+   leia(sel)
+
+   escolha (sel)
+   caso 1
+      limpatela
+      cadastro_item()
+
+   caso 2
+      imprimir_produtos()
+
+   caso 3
+      procurar_item()
+
+   caso 4
+      mudar_item()
+
+   caso 5
+      //excluir_item()
+
+   caso 6
+      limpatela
+      escreva("Obrigado pela consulta.")
+      escreval
+      escreval("Tenha um bom dia.")
+
+   fimescolha
+
+fimprocedimento
+
+// Cadastramento de itens
+procedimento cadastro_item()
+var i     : inteiro
+   saida : caractere
+inicio
+   index <- index + 1
    para i de 1 ate 1 faca
-      index <- index + 1
       escreval("----------------------------")
       escreval("----- Cadastro de Item -----")
       escreval("----------------------------")
@@ -34,63 +86,200 @@ inicio
       leia(produtos[index].qtdEmEst)
       escreva ("Preço indexado: ")
       leia(produtos[index].prec)
+      escreval
+
+      escreval("Deseja cadastrar outro item? S/N")
+      leia(saida)
+      saida <- minusc(saida)
+
+      se (saida = "s") entao
+         cadastro_item()
+      senao
+         menu()
+      fimse
+
    fimpara
 
 fimprocedimento
 
+// Listagem de itens cadastrados no MENU
 procedimento imprimir_produtos()
-var j: inteiro
+var j       : inteiro
+   retorno : caractere
 inicio
    escreval("Status do estoque: ")
-   para j de 1 ate 1 faca
+   para index de 1 ate index faca
       escreval("Produto    : ", produtos[index].nom)
       escreval("Quantidade : ", produtos[index].qtdEmEst)
       escreval("Preço (R$) : ", produtos[index].prec)
+      escreval
    fimpara
+
+   escreval
+   escreval("VOLTAR PARA MENU? S/N")
+   leia(retorno)
+   retorno <- minusc(retorno)
+
+   se (retorno = "s") ou (retorno = "sim") entao
+      menu()
+   senao
+      limpatela
+      escreva("Consulta concluída.")
+   fimse
 fimprocedimento
 
-procedimento menu()
-var sel  : inteiro
-    cont : caractere
+// Pesquisa de itens cadastrados no MENU
+procedimento procurar_item()
+var texto, proc : caractere
 inicio
    limpatela
-   escreval("----------------------------")
-   escreval("----------- MENU -----------")
-   escreval("----------------------------")
-   escreval
-   escreval("    1. Cadastro de item     ")
-   escreval("    2. Lista de itens       ")
-   escreval("    3. Procurar item        ")
-   escreval("    4. Alterar item         ")
-   escreval("    5. Remover item         ")
-   escreval("    6. SAIR                 ")
-   escreva ("Escolha: ")
-   leia(sel)
+   escreva("Nome do item: ")
+   leia(texto)
+   texto <- minusc(texto)
 
-   escolha (sel)
-   caso 1
-      limpatela
-      cadastro_item()
-      
-      escreva("Deseja cotinuar? s/n")
-      leia(cont)
-      se (cont = "s") entao
-         menu()
-      senao
-         escreva("Produtos cadastrados com sucesso!")
+   para index de 1 ate index faca
+      se (minusc(produtos[index].nom) = texto) entao
+         escreval("Item: ", produtos[index].nom)
+         escreval("Código ISBM: ", produtos[index].codIsb)
+         escreval("Preço do produto: ", produtos[index].prec)
       fimse
-   caso 2
-      imprimir_produtos()
-   caso 3
-      escreval
-   caso 4
-      escreval
-   caso 6
-      limpatela
-   fimescolha
+   fimpara
+
+   escreval
+   escreval("Deseja pesquisar outro item? S/N")
+   leia(proc)
+   proc <- minusc(proc)
+
+   se (proc = "s") ou (proc = "sim") entao
+      procurar_item()
+   senao
+      menu()
+   fimse
 
 fimprocedimento
 
+// Troca de itens
+procedimento mudar_item()
+var troc, alt : caractere
 inicio
+   escreva("Item que deseja mudar: ")
+   leia(troc)
+
+   escreval
+   para index de 1 ate index faca
+      se (minusc(produtos[index].nom) = troc) ou (minusc(produtos[index].codIsb) = troc) entao
+         escreva("Novo nome para o item: ")
+         leia(produtos[index].nom)
+         escreva("Novo código ISBM: ")
+         leia(produtos[index].codIsb)
+         escreva("Número de estoque: ")
+         leia(produtos[index].qtdEmEst)
+         escreva("Valor indexado: ")
+         leia(produtos[index].prec)
+      fimse
+   fimpara
+
+   escreval("Deseja alterar outro item? S/N")
+   leia(alt)
+   alt <- minusc(alt)
+
+   se (alt = "s") ou (alt = "sim") entao
+      mudar_item()
+   senao
+      menu()
+   fimse
+
+fimprocedimento
+
+// Procedimento para excluir itens do Vetor
+//procedimento excluir_item()
+//var exc, itExc: caractere
+//inicio
+//   escreva("Item a ser excluído: ")
+//   leia(itExc)
+//   itExc <- minusc(itExc)
+   
+//   escreval
+//   para index de 1 ate index faca
+//      se (produtos[index].nom = itExc) ou (produtos[index].codIsb = itExc) entao
+//         produtos[index].nom <- 0
+//         produtos[index].codIsb = 0
+//         produtos[index].qtdEmEst = 0
+//         produtos[index].prec = 0
+//      fimse
+//   fimpara
+
+//   escreval("Deseja excluir outro item? S/N")
+//   leia(exc)
+//   exc <- minusc(exc)
+   
+//   se (exc = "s") ou (exc = "sim") entao
+//      excluir_item()
+//   senao
+//      menu()
+//   fimse
+//fimprocedimento
+
+
+// Relatórios envolvendo a média de preços, item mais caro e itens com estoque crítico (<= 10)
+procedimento relatorios()
+var mediaPre : real
+   somaPre  : real
+   maiorPre : real
+   id       : inteiro
+   maisCaro : caractere
+   esCri    : caractere
+inicio
+   limpatela
+   somaPre  <- 0
+   maiorPre <- 0
+   id       <- 0 // Quantidade de itens
+
+   para index de 1 ate index faca
+      somaPre <- somaPre + produtos[index].prec
+      id <- id + 1
+      se (produtos[index].prec > maiorPre) entao
+         maiorPre <- produtos[index].prec // Maior preço no estoque
+      fimse
+   fimpara
+
+   se (maiorPre = produtos[index].prec) entao
+      maisCaro <- produtos[index].nom // Item mais caro no estoque
+   fimse
+
+   para index de 1 ate index faca
+      se (produtos[index].qtdEmEst <= 10) entao
+         esCri <- produtos[index].nom // Item(s) com estoque crítico
+         escreval
+      senao
+         esCri <- ("Não há produtos em estoque crítico")
+      fimse
+   fimpara
+
+   mediaPre <- somaPre/id
+
+   escreval("Relatórios: ")
+   escreval
+   escreval("Preço médio                  : R$ ", mediaPre:1:2)
+   escreval("Produto mais caro            : ", maisCaro)
+   escreval("Produtos com estoque crítico : ", esCri)
+fimprocedimento
+
+inicio
+   index <- 0
    menu()
+
+   escreval
+   escreval("Deseja acessar os relatórios sobre os itens? S/N")
+   leia(ret)
+   ret <- minusc(ret)
+
+   escreval
+   se (ret = "s") ou (ret = "sim") entao
+      relatorios()
+   senao
+      limpatela
+      escreva("Tenha um bom dia.")
+   fimse
+
 fimalgoritmo
